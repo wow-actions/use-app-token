@@ -18,6 +18,8 @@ export namespace Util {
     })
     const key = res.data.key
 
+    core.info(`Key: ${JSON.stringify(res.data, null, 2)}`)
+
     // Convert the message and key to Uint8Array's
     const messageBytes = Buffer.from(value)
     const keyBytes = Buffer.from(key, 'base64')
