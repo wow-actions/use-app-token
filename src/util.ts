@@ -39,7 +39,9 @@ export namespace Util {
   ) {
     try {
       const secret = await createSecret(octokit, value)
-      return octokit.actions.createOrUpdateRepoSecret({
+      core.info(`created secret: ${JSON.stringify(secret, null, 2)}`)
+
+      await octokit.actions.createOrUpdateRepoSecret({
         ...github.context.repo,
         ...secret,
         secret_name: name,
