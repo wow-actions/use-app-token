@@ -1,9 +1,12 @@
 name: Generate App Token
 on:
   workflow_run:
-    types: [requested]
+    workflows:
+      - Needs More Info
+    types:
+      - requested
 jobs:
-  test:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
