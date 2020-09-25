@@ -13,7 +13,16 @@ export namespace Util {
     value: string,
   ) {
     const repo = github.context.repo
+
     core.info(`Repo: ${JSON.stringify(repo, null, 2)}`)
+
+    const oct = getOctokit()
+    const rr = await oct.actions.getRepoPublicKey({
+      ...github.context.repo,
+    })
+
+    core.info(`RR: ${JSON.stringify(rr, null, 2)}`)
+
     // Get publick key
     const ret = await octokit.request(
       'GET /:base/:repo/actions/secrets/public-key',
