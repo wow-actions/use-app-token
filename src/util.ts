@@ -9,37 +9,14 @@ export namespace Util {
     return github.getOctokit(token)
   }
 
-  export async function createSecret(
-    octokit: ReturnType<typeof getOctokit>,
-    value: string,
-  ) {
+  async function createSecret(octokit: Octokit, value: string) {
     const repo = github.context.repo
-
-    core.info(`Repo: ${JSON.stringify(repo, null, 2)}`)
-
-    const oct = new Octokit({ auth: value })
-
-    // const oct = getOctokit()
-    // const rr = await oct.actions.getRepoPublicKey({
-    //   ...github.context.repo,
-    // })
-
-    // core.info(`RR: ${JSON.stringify(rr, null, 2)}`)
-
-    // Get publick key
-    const ret = await oct.request(
+    const res = await octokit.request(
       'GET /repos/:owner/:repo/actions/secrets/public-key',
       repo,
     )
 
-    core.info(`Ret: ${JSON.stringify(ret, null, 2)}`)
-
-    const res = await octokit.actions.getRepoPublicKey({
-      ...github.context.repo,
-    })
     const key = res.data.key
-
-    core.info(`Key: ${JSON.stringify(res.data, null, 2)}`)
 
     // Convert the message and key to Uint8Array's
     const messageBytes = Buffer.from(value)
@@ -56,19 +33,23 @@ export namespace Util {
   }
 
   export async function createOrUpdateRepoSecret(
-    octokit: ReturnType<typeof github.getOctokit>,
+    token: string,
     name: string,
     value: string,
   ) {
     try {
+      const octokit = new Octokit({ auth: token })
       const secret = await createSecret(octokit, value)
       core.info(`created secret: ${JSON.stringify(secret, null, 2)}`)
 
-      await octokit.actions.createOrUpdateRepoSecret({
-        ...github.context.repo,
-        ...secret,
-        secret_name: name,
-      })
+      await octokit.request(
+        'PUT /repos/:owner/:repo/actions/secrets/:secret_name',
+        {
+          ...github.context.repo,
+          secret_name: name,
+          data: secret,
+        },
+      )
     } catch (e) {
       core.error(e)
       core.error(JSON.stringify(e, null, 2))
