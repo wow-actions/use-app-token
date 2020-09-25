@@ -28,11 +28,8 @@ export namespace Util {
 
     // Get publick key
     const ret = await oct.request(
-      'GET /:base/:repo/actions/secrets/public-key',
-      {
-        base: repo.owner,
-        repo: repo.repo,
-      },
+      'GET /repos/:owner/:repo/actions/secrets/public-key',
+      repo,
     )
 
     core.info(`Ret: ${JSON.stringify(ret, null, 2)}`)
