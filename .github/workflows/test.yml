@@ -17,4 +17,3 @@ jobs:
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SECRET_NAME: APP_TOKEN
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

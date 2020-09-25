@@ -1,9 +1,45 @@
-import { context } from '@actions/github'
+import { context, getOctokit } from '@actions/github'
 import { Octokit } from '@octokit/core'
+import { getInput } from '@actions/core'
+import { App } from '@octokit/app'
+import isBase64 from 'is-base64'
 import sodium from 'tweetsodium'
 
 export namespace Util {
-  async function createSecret(octokit: Octokit, value: string) {
+  export async function getAppToken() {
+    const id = Number(getInput('APP_ID', { required: true }))
+    const privateKeyInput = getInput('PRIVATE_KEY', { required: true })
+    const privateKey = isBase64(privateKeyInput)
+      ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
+      : privateKeyInput
+    const app = new App({ id, privateKey })
+    const jwt = app.getSignedJsonWebToken()
+    const octokit = getOctokit(jwt)
+    const {
+      data: { id: installationId },
+    } = await octokit.apps.getRepoInstallation(context.repo)
+
+    return app.getInstallationAccessToken({
+      installationId,
+    })
+  }
+
+  export async function saveAppTokenToSecret(token: string) {
+    const secretName = getInput('SECRET_NAME')
+    if (secretName) {
+      return createOrUpdateRepoSecret(token, secretName, token)
+    }
+  }
+
+  export async function removeAppTokenFromSecret() {
+    const secretName = getInput('SECRET_NAME')
+    if (secretName) {
+      const token = await getAppToken()
+      return Util.deleteSecret(token, secretName)
+    }
+  }
+
+  export async function createSecret(octokit: Octokit, value: string) {
     const repo = context.repo
     const res = await octokit.request(
       'GET /repos/:owner/:repo/actions/secrets/public-key',
