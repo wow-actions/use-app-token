@@ -16,7 +16,6 @@ outputs:
 runs:
   using: node12
   main: dist/index.js
-  post: dist/index.js
 branding:
   icon: smile
   color: orange # gray-dark purple red orange green blue yellow black white
