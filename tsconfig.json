@@ -2,8 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
