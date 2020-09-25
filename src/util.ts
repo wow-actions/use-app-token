@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import { Octokit } from '@octokit/core'
 import sodium from 'tweetsodium'
 
 export namespace Util {
@@ -16,7 +17,9 @@ export namespace Util {
 
     core.info(`Repo: ${JSON.stringify(repo, null, 2)}`)
 
-    const oct = getOctokit()
+    const oct = new Octokit({ auth: value })
+
+    // const oct = getOctokit()
     const rr = await oct.actions.getRepoPublicKey({
       ...github.context.repo,
     })
