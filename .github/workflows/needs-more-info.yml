@@ -10,8 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: 🚧　Install
-      run: |
-        yarn
+        run: |
+          yarn
       - name: 📦　Build
         run: |
           yarn build
