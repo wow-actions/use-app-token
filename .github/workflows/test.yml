@@ -1,6 +1,6 @@
 name: Test
 on:
-  push:
+  pull_requestgaa:
 jobs:
   test:
     runs-on: ubuntu-latest
