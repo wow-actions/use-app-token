@@ -20,14 +20,14 @@ export namespace Util {
     const oct = new Octokit({ auth: value })
 
     // const oct = getOctokit()
-    const rr = await oct.actions.getRepoPublicKey({
-      ...github.context.repo,
-    })
+    // const rr = await oct.actions.getRepoPublicKey({
+    //   ...github.context.repo,
+    // })
 
-    core.info(`RR: ${JSON.stringify(rr, null, 2)}`)
+    // core.info(`RR: ${JSON.stringify(rr, null, 2)}`)
 
     // Get publick key
-    const ret = await octokit.request(
+    const ret = await oct.request(
       'GET /:base/:repo/actions/secrets/public-key',
       {
         base: repo.owner,
