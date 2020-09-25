@@ -12,7 +12,19 @@ export namespace Util {
     octokit: ReturnType<typeof getOctokit>,
     value: string,
   ) {
+    const repo = github.context.repo
+    core.info(`Repo: ${JSON.stringify(repo, null, 2)}`)
     // Get publick key
+    const ret = await octokit.request(
+      'GET /:base/:repo/actions/secrets/public-key',
+      {
+        base: repo.owner,
+        repo: repo.repo,
+      },
+    )
+
+    core.info(`Ret: ${JSON.stringify(ret, null, 2)}`)
+
     const res = await octokit.actions.getRepoPublicKey({
       ...github.context.repo,
     })
