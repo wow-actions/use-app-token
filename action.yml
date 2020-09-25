@@ -17,5 +17,5 @@ runs:
   using: node12
   main: dist/index.js
 branding:
-  color: coral
   icon: smile
+  color: orange # gray-dark purple red orange green blue yellow black white
