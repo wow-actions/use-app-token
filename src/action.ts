@@ -22,11 +22,9 @@ export namespace Action {
         installationId,
       })
 
-      core.info(`Token: ${token}`)
-
       const secretName = core.getInput('SECRET_NAME')
       if (secretName) {
-        await Util.createOrUpdateRepoSecret(octokit, secretName, token)
+        await Util.createOrUpdateRepoSecret(token, secretName, token)
       }
 
       core.setSecret(token)
