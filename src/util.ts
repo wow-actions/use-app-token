@@ -1,6 +1,6 @@
 import { context, getOctokit } from '@actions/github'
-import { Octokit } from '@octokit/core'
 import { getInput } from '@actions/core'
+import { Octokit } from '@octokit/core'
 import { App } from '@octokit/app'
 import isBase64 from 'is-base64'
 import sodium from 'tweetsodium'
@@ -24,15 +24,16 @@ export namespace Util {
     })
   }
 
-  export async function saveAppTokenToSecret(token: string) {
-    const secretName = getInput('SECRET_NAME')
+  export async function saveAppTokenToSecret(
+    secretName: string,
+    token: string,
+  ) {
     if (secretName) {
       return createOrUpdateRepoSecret(token, secretName, token)
     }
   }
 
-  export async function removeAppTokenFromSecret() {
-    const secretName = getInput('SECRET_NAME')
+  export async function removeAppTokenFromSecret(secretName: string) {
     if (secretName) {
       const token = await getAppToken()
       return Util.deleteSecret(token, secretName)
