@@ -69,9 +69,10 @@ export namespace Util {
         ...secret,
         secret_name: name,
       })
-    } catch (error) {
-      core.error(error)
-      core.setFailed(error)
+    } catch (e) {
+      core.error(e)
+      core.error(JSON.stringify(e, null, 2))
+      core.setFailed(e.message)
     }
   }
 }
