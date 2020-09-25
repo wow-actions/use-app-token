@@ -8,7 +8,7 @@ export namespace Action {
       await Util.saveAppTokenToSecret(token)
       core.setSecret(token)
       core.setOutput('token', token)
-      core.info('Token generated successfully!')
+      core.info('Token generated!')
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)
@@ -18,6 +18,7 @@ export namespace Action {
   export async function cleanup() {
     try {
       await Util.removeAppTokenFromSecret()
+      core.info('Token cleaned!')
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)
