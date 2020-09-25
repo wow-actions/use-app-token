@@ -5,7 +5,9 @@ import isBase64 from 'is-base64'
 import { Util } from './util'
 
 export namespace Action {
-  export async function start() {
+  let token: string
+
+  export async function run() {
     try {
       const id = Number(core.getInput('APP_ID', { required: true }))
       const privateKeyInput = core.getInput('PRIVATE_KEY', { required: true })
@@ -18,7 +20,8 @@ export namespace Action {
       const {
         data: { id: installationId },
       } = await octokit.apps.getRepoInstallation(github.context.repo)
-      const token = await app.getInstallationAccessToken({
+
+      token = await app.getInstallationAccessToken({
         installationId,
       })
 
@@ -30,6 +33,18 @@ export namespace Action {
       core.setSecret(token)
       core.setOutput('token', token)
       core.info('Token generated successfully!')
+    } catch (e) {
+      core.error(e)
+      core.setFailed(e.message)
+    }
+  }
+
+  export async function cleanup() {
+    try {
+      const secretName = core.getInput('SECRET_NAME')
+      if (secretName) {
+        await Util.deleteSecret(token, secretName)
+      }
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)

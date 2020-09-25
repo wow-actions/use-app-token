@@ -1,16 +1,10 @@
-import * as core from '@actions/core'
-import * as github from '@actions/github'
+import { context } from '@actions/github'
 import { Octokit } from '@octokit/core'
 import sodium from 'tweetsodium'
 
 export namespace Util {
-  export function getOctokit() {
-    const token = core.getInput('GITHUB_TOKEN', { required: true })
-    return github.getOctokit(token)
-  }
-
   async function createSecret(octokit: Octokit, value: string) {
-    const repo = github.context.repo
+    const repo = context.repo
     const res = await octokit.request(
       'GET /repos/:owner/:repo/actions/secrets/public-key',
       repo,
@@ -37,23 +31,26 @@ export namespace Util {
     name: string,
     value: string,
   ) {
-    try {
-      const octokit = new Octokit({ auth: token })
-      const secret = await createSecret(octokit, value)
-      core.info(`created secret: ${JSON.stringify(secret, null, 2)}`)
+    const octokit = new Octokit({ auth: token })
+    const secret = await createSecret(octokit, value)
+    await octokit.request(
+      'PUT /repos/:owner/:repo/actions/secrets/:secret_name',
+      {
+        ...context.repo,
+        secret_name: name,
+        data: secret,
+      },
+    )
+  }
 
-      await octokit.request(
-        'PUT /repos/:owner/:repo/actions/secrets/:secret_name',
-        {
-          ...github.context.repo,
-          secret_name: name,
-          data: secret,
-        },
-      )
-    } catch (e) {
-      core.error(e)
-      core.error(JSON.stringify(e, null, 2))
-      core.setFailed(e.message)
-    }
+  export async function deleteSecret(token: string, name: string) {
+    const octokit = new Octokit({ auth: token })
+    await octokit.request(
+      'DELETE /repos/:owner/:repo/actions/secrets/:secret_name',
+      {
+        ...context.repo,
+        secret_name: name,
+      },
+    )
   }
 }

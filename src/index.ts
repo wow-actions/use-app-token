@@ -1,3 +1,9 @@
 import { Action } from './action'
 
-Action.start()
+const isPost = !!process.env['STATE_isPost']
+
+if (!isPost) {
+  Action.run()
+} else {
+  Action.cleanup()
+}
