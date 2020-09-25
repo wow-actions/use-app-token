@@ -2,7 +2,7 @@ name: Generate App Token
 on:
   workflow_run:
     workflows:
-      - Needs More Info
+      - Needs
     types:
       - requested
 jobs:
