@@ -31,15 +31,20 @@ async function run() {
   }
 }
 
-function encryptSecret(value: string) {
-  const key = 'base64-encoded-public-key'
+async function encryptSecret(
+  octokit: ReturnType<typeof github.getOctokit>,
+  value: string,
+) {
+  // Get publick key
+  const res = await octokit.actions.getRepoPublicKey({ ...github.context.repo })
+  const key = res.data.key
 
   // Convert the message and key to Uint8Array's (Buffer implements that interface)
   const messageBytes = Buffer.from(value)
-  const keyBytes = Buffer.from(key, 'base64')
+  const publicKey = Buffer.from(key, 'base64')
 
   // Encrypt using LibSodium.
-  const encryptedBytes = sodium.seal(messageBytes, keyBytes)
+  const encryptedBytes = sodium.seal(messageBytes, publicKey)
 
   // Base64 the encrypted secret
   return Buffer.from(encryptedBytes).toString('base64')
@@ -52,14 +57,17 @@ async function createOrUpdateTokenInSecret(
   try {
     const name = core.getInput('SECRET_NAME')
     if (name) {
+      const encryptedToken = await encryptSecret(octokit, token)
+      core.info(`Encrypted Token: ${encryptedToken}`)
       return octokit.actions.createOrUpdateRepoSecret({
         ...github.context.repo,
         secret_name: name,
-        encrypted_value: encryptSecret(token),
+        encrypted_value: encryptedToken,
       })
     }
   } catch (error) {
     core.error(error)
+    core.setFailed(error)
   }
 }
 
