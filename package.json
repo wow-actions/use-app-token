@@ -1,0 +1,67 @@
+{
+  "name": "use-app-token",
+  "version": "1.0.0",
+  "description": "Run a GitHub Action as a GitHub App instead of using secrets.GITHUB_TOKEN or a personal access token.",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "action.yml"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "ncc build src/index.ts --minify --v8-cache",
+    "prebuild": "run-s lint clean",
+    "precommit": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged && yarn precommit"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "pretty-quick — staged"
+    ],
+    "src/**/*.ts": [
+      "tslint -c tslint.json -p ./tsconfig.json --fix"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "repository": "https://github.com/bubkoo/use-app-token",
+  "author": "bubkoo <bubkoo.wy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "@octokit/app": "^4.2.1",
+    "is-base64": "^1.1.0",
+    "tweetsodium": "^0.0.5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/is-base64": "^1.1.0",
+    "@types/node": "^14.0.27",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
+    "@vercel/ncc": "^0.24.1",
+    "eslint": "^7.9.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.3.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.0.2",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.1.3",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^4.0.3"
+  }
+}
