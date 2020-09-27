@@ -1,12 +1,12 @@
-import * as coreCommand from '@actions/core/lib/command'
+import { getState, saveState } from '@actions/core'
 
 export namespace State {
-  export const isPost = !!process.env['STATE_isPost']
+  export const isPost = !!getState('isPost')
 
   // Publish a variable so that when the POST action runs, it can determine
   // it should run the cleanup logic. This is necessary since we don't have
   // a separate entry point.
   if (!isPost) {
-    coreCommand.issueCommand('save-state', { name: 'isPost' }, 'true')
+    saveState('isPost', true)
   }
 }

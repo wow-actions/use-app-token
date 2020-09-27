@@ -11,8 +11,14 @@ export namespace Action {
         await Util.saveAppTokenToSecret(secretName, token)
         core.info(`Token save in secret "${secretName}"`)
       }
+
       core.setSecret(token)
       core.setOutput('token', token)
+
+      const variableName = core.getInput('VARIABLE_NAME')
+      if (variableName) {
+        core.exportVariable(variableName, token)
+      }
     } catch (e) {
       core.error(e)
       core.setFailed(e.message)
