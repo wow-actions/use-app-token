@@ -27,5 +27,5 @@ runs:
   main: dist/index.js
   post: dist/index.js
 branding:
-  icon: smile
+  icon: anchor
   color: orange # gray-dark purple red orange green blue yellow black white
