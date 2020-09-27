@@ -8,14 +8,24 @@ inputs:
   PRIVATE_KEY:
     description: The private key of the GitHub App (can be Base64 encoded).
     required: true
+  VARIABLE_NAME:
+    description: The name of generated token in output and exported variable.
+    required: false
+    default: token
   SECRET_NAME:
     description: The secret name created on current repository.
+    required: false
+  CLEAN_SECRET:
+    description: Shoule clean the secret or not when completed.
+    required: false
+    default: false
 outputs:
   token:
     description: An installation token for the GitHub App on the current repository.
 runs:
   using: node12
   main: dist/index.js
+  post: dist/index.js
 branding:
   icon: smile
   color: orange # gray-dark purple red orange green blue yellow black white
