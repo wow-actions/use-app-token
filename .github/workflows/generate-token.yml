@@ -1,12 +1,8 @@
-name: Generate App Token
+name: Test
 on:
-  workflow_run:
-    workflows:
-      - Needs
-    types:
-      - requested
+  push:
 jobs:
-  generate:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,6 +14,5 @@ jobs:
           yarn build
       - uses: ./
         with:
-          APP_ID: ${{ secrets.APP_ID }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          SECRET_NAME: APP_TOKEN
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
