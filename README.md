@@ -8,7 +8,7 @@ This GitHub Action can be used to impersonate a GitHub App when `secrets.GITHUB_
 
 ```yml
 jobs:
-  job:
+  run:
     runs-on: ubuntu-latest
     steps:
       - name: Generate token
