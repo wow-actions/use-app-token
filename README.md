@@ -17,11 +17,12 @@ jobs:
         with:
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      - name: Use token
-        env:
-          TOKEN: ${{ steps.generate_token.outputs.token }}
-        run: |
-          echo "The generated token is masked: ${TOKEN}"
+      - name: Needs More info # Use token in other actions
+        uses: bubkoo/needs-more-info@v1
+        with:
+          # Use token in outpus of the 'generate_token' action
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          CONFIG_FILE: .github/workflows/config/needs-more-info.yml
 ```
 
 ### Options
