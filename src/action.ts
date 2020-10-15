@@ -10,7 +10,7 @@ export namespace Action {
       const secretName = core.getInput('secret_name')
       if (secretName) {
         await Util.saveAppTokenToSecret(secretName, token)
-        core.info(`Token save in secret "${secretName}"`)
+        core.info(`Save token in secret "${secretName}"`)
       }
 
       core.setSecret(token)
