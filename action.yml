@@ -1,5 +1,5 @@
 name: Use App token
-description: Run a GitHub Action as a GitHub App to use the app's token.
+description: Run GitHub Actions as a GitHub App to use the app's token.
 author: bubkoo <bubkoo.wy@gmail.com>
 inputs:
   app_id:
@@ -16,13 +16,13 @@ inputs:
     description: The secret name created on current repository.
     required: false
   clean_secret:
-    description: Shoule clean the secret or not when completed.
+    description: Should clean the secret or not when this action run completed.
     required: false
     default: false
 
 outputs:
   token:
-    description: An installation token for the GitHub App on the current repository.
+    description: The token for the GitHub App on the current repository.
 
 runs:
   using: node12
