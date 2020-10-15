@@ -22,7 +22,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "pretty-quick — staged"
+      "pretty-quick —-staged"
     ],
     "src/**/*.ts": [
       "tslint -c tslint.json -p ./tsconfig.json --fix"
