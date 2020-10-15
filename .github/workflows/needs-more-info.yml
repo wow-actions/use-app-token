@@ -19,8 +19,8 @@ jobs:
         id: generate_token
         uses: ./
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       - uses: bubkoo/needs-more-info@v1
         with:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
