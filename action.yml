@@ -1,31 +1,34 @@
 name: Use App token
-description: Run a GitHub Action as a GitHub App instead of using secrets.GITHUB_TOKEN or a personal access token.
+description: Run a GitHub Action as a GitHub App to use the app's token.
 author: bubkoo <bubkoo.wy@gmail.com>
 inputs:
-  APP_ID:
+  app_id:
     description: The ID of the GitHub App.
     required: true
-  PRIVATE_KEY:
+  private_key:
     description: The private key of the GitHub App (can be Base64 encoded).
     required: true
-  VARIABLE_NAME:
+  variable_name:
     description: The name of generated token in output and exported variable.
     required: false
     default: token
-  SECRET_NAME:
+  secret_name:
     description: The secret name created on current repository.
     required: false
-  CLEAN_SECRET:
+  clean_secret:
     description: Shoule clean the secret or not when completed.
     required: false
     default: false
+
 outputs:
   token:
     description: An installation token for the GitHub App on the current repository.
+
 runs:
   using: node12
   main: dist/index.js
   post: dist/index.js
+
 branding:
   icon: anchor
   color: orange # gray-dark purple red orange green blue yellow black white

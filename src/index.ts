@@ -5,7 +5,7 @@ import { Action } from './action'
 if (!State.isPost) {
   Action.run()
 } else {
-  if (getInput('CLEAN_SECRET') === 'true') {
+  if (getInput('clean_secret') === 'true') {
     Action.cleanup()
   }
 }

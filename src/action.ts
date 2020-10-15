@@ -6,7 +6,8 @@ export namespace Action {
     try {
       const token = await Util.getAppToken()
       core.info('Token generated!')
-      const secretName = core.getInput('SECRET_NAME')
+
+      const secretName = core.getInput('secret_name')
       if (secretName) {
         await Util.saveAppTokenToSecret(secretName, token)
         core.info(`Token save in secret "${secretName}"`)
@@ -15,7 +16,7 @@ export namespace Action {
       core.setSecret(token)
       core.setOutput('token', token)
 
-      const variableName = core.getInput('VARIABLE_NAME')
+      const variableName = core.getInput('variable_name')
       if (variableName) {
         core.exportVariable(variableName, token)
       }
@@ -27,7 +28,7 @@ export namespace Action {
 
   export async function cleanup() {
     try {
-      const secretName = core.getInput('SECRET_NAME')
+      const secretName = core.getInput('secret_name')
       if (secretName) {
         await Util.removeAppTokenFromSecret(secretName)
         core.info(`Token in secret "${secretName}" was cleaned`)

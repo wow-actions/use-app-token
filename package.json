@@ -1,7 +1,7 @@
 {
   "name": "use-app-token",
-  "version": "1.0.0",
-  "description": "Run a GitHub Action as a GitHub App instead of using secrets.GITHUB_TOKEN or a personal access token.",
+  "version": "1.0.1",
+  "description": "Run a GitHub Action as a GitHub App to use the app's token.",
   "main": "dist/index.js",
   "files": [
     "dist",

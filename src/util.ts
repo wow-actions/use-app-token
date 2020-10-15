@@ -7,8 +7,8 @@ import sodium from 'tweetsodium'
 
 export namespace Util {
   export async function getAppToken() {
-    const id = Number(getInput('APP_ID', { required: true }))
-    const privateKeyInput = getInput('PRIVATE_KEY', { required: true })
+    const id = Number(getInput('app_id', { required: true }))
+    const privateKeyInput = getInput('private_key', { required: true })
     const privateKey = isBase64(privateKeyInput)
       ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
       : privateKeyInput
