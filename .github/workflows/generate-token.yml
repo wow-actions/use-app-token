@@ -1,6 +1,5 @@
-name: Test
-on:
-  push:
+name: Generate Token
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
