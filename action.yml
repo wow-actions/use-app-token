@@ -11,7 +11,6 @@ inputs:
   variable_name:
     description: The name of generated token in output and exported variable.
     required: false
-    default: token
   secret_name:
     description: The secret name created on current repository.
     required: false
