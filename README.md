@@ -6,44 +6,78 @@ This GitHub Action can be used to impersonate a GitHub App when `secrets.GITHUB_
 
 We can also use an app token to [custom an action's name and avatar](https://github.community/t/change-bots-name-avatar/18349).
 
-![all links](https://github.com/bubkoo/use-app-token/blob/master/screenshot.jpg?raw=true)
+![screenshot](https://github.com/bubkoo/use-app-token/blob/master/screenshots/screenshot.jpg?raw=true)
 
 ## Usage
 
-Use action's output in other actions.
+Before staring, we should get our owned app's _"APP ID"_ and _"Private Key"_ in the app's setting page. For example, find the two values in my app's setting page [https://github.com/settings/apps/bubkoo-bot](https://github.com/settings/apps/bubkoo-bot).
+
+Get your owned app's _"APP ID"_:
+
+![get-app-id](https://github.com/bubkoo/use-app-token/blob/master/screenshots/get-app-id.jpg?raw=true)
+
+Get or create a _"Private Key"_:
+
+![get-private-key](https://github.com/bubkoo/use-app-token/blob/master/screenshots/get-private-key.jpg?raw=true)
+
+**Do not have a Github App? Get a quick start with [probot](https://probot.github.io/).**
+
+Then add _"APP ID"_ and _"Private Key"_ to the target [repo's secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets). For example, we can add two secrets named `APP_ID` and `PRIVATE_KEY` with corresponding value.
+
+![secrets](https://github.com/bubkoo/use-app-token/blob/master/screenshots/secrets.jpg?raw=true)
+
+Now we can config the action by three ways:
+
+**Method 1**: Use action's output in the next steps.
 
 ```yml
-name: Needs More Info
-on:
-  pull_request:
-    types: [opened]
-  issues:
-    types: [opened]
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate token
+      - uses: bubkoo/use-app-token@v1
         id: generate_token
-        uses: bubkoo/use-app-token@v1
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: Needs More info # Use token in other actions
-        uses: bubkoo/needs-more-info@v1
+
+      # Use token in next steps
+      - uses: 'any other action'
         with:
-          # Use token in outpus of the 'generate_token' action
+          # Use token in outpus of the 'generate_token' step
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          CONFIG_FILE: .github/workflows/config/needs-more-info.yml
 ```
 
-Or set an secret in you repo:
+**Method 2**: Set an environment variable and used in the next step.
 
 ```yml
-name: App Token
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: bubkoo/use-app-token@v1
+        id: generate_token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+          # save app's token to the environment variable named "bot_token"
+          variable_name: bot_token
+
+      # Use token in next steps
+      - uses: 'any other action'
+        with:
+          # Use token in the environment variable named "bot_token"
+          GITHUB_TOKEN: ${{ env.bot_token }}
+```
+
+**Method 3**: Add or update an secret in the target repo schedulely.
+
+```yml
+name: Use App Token
 on:
   schedule:
-    - cron: '0 1 * * *'
+    # add or update secret every hour
+    - cron: '0 */1 * * *'
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -53,27 +87,19 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
           # The secret name
-          secret_name: APP_TOKEN
+          secret_name: BOT_TOKEN
 ```
 
-Then we can use the secret named `'APP_TOKEN'` in other ancitons:
+Then we can use the secret named `'BOT_TOKEN'` in the next steps.
 
 ```yml
-name: Needs More Info
-on:
-  pull_request:
-    types: [opened]
-  issues:
-    types: [opened]
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Needs More info
-        uses: bubkoo/needs-more-info@v1
+      - uses: 'any other action'
         with:
-          GITHUB_TOKEN: ${{ secrets.APP_TOKEN }}
-          CONFIG_FILE: .github/workflows/config/needs-more-info.yml
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
 ```
 
 ### Inputs
