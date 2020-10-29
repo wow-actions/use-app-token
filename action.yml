@@ -9,7 +9,10 @@ inputs:
     description: The private key of the GitHub App (can be Base64 encoded).
     required: true
   variable_name:
-    description: The name of generated token in output and exported variable.
+    description: The name of generated token in exported environment variable.
+    required: false
+  env_name:
+    description: The name of generated token in exported environment variable.
     required: false
   secret_name:
     description: The secret name created on current repository.
