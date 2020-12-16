@@ -4,10 +4,13 @@ author: bubkoo <bubkoo.wy@gmail.com>
 inputs:
   app_id:
     description: The ID of the GitHub App.
-    required: true
+    required: false
   private_key:
     description: The private key of the GitHub App (can be Base64 encoded).
-    required: true
+    required: false
+  fallback:
+    description: The fallback token when bot token generate failed.
+    required: false
   variable_name:
     description: The name of generated token in exported environment variable.
     required: false

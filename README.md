@@ -108,6 +108,7 @@ jobs:
 
 - `app_id`: The ID of the GitHub App. [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'APP_ID'` to store your app ID, then used by `${{ secrets.APP_ID }}`
 - `private_key`: The private key of the GitHub App (can be Base64 encoded). [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'PRIVATE_KEY'` to store your app private key, then used by `${{ secrets.APP_ID }}`
+- `fallback`: The fallback token when app token generate failed.
 - `env_name`: The name of generated token in exported environment variable. Specify a varable name will set an environment variable with specfiied name and valued with generated token, and can be use in next step with `${{ env.env_name }}`.
 - `secret_name`: The secret name created on current repository. Specify a secret name will add an secret on current repository with specfiied name and valued with generated token and can be use in next step with `${{ secrets.xxx }}`.
 - `clean_secret`: Shoule clean the secret or not when the job completed. Only used when `secret_name` specfiied. Default `false`.
