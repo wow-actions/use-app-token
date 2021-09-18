@@ -31,21 +31,27 @@ export namespace Util {
     // const app = new App({ id, privateKey })
     // const jwt = app.getSignedJsonWebToken()
 
-    core.info(`jwt: ${jwt}`)
+    core.info(`1. Retrieve JSON Web Token (JWT) to authenticate as app`)
 
     // 2. Get installationId of the app
     const octokit = github.getOctokit(jwt)
+
+    console.log(github.context.repo) // eslint-disable-line
+
+    const res = await octokit.rest.apps.getRepoInstallation(github.context.repo)
+    console.log(res) // eslint-disable-line
     const {
       data: { id: installationId },
-    } = await octokit.rest.apps.getRepoInstallation(github.context.repo)
-
-    core.info(`installationId: ${installationId}`)
+    } = res
+    core.info(`2. Get installationId of the app`)
 
     // 3. Retrieve installation access token
     const { token } = await auth({
       installationId,
       type: 'installation',
     })
+
+    core.info(`3. Retrieve installation access token`)
 
     return token
   }
