@@ -15,20 +15,23 @@ export namespace Util {
       return Promise.resolve(fallback)
     }
 
-    // const id = Number(appId)
     const privateKey = isBase64(privateKeyInput)
       ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
       : privateKeyInput
 
-    const authApp = createAppAuth({
+    core.info(`privateKey: ${privateKey}`)
+
+    const auth = createAppAuth({
       appId,
       privateKey,
     })
 
     // 1. Retrieve JSON Web Token (JWT) to authenticate as app
-    const { token: jwt } = await authApp({ type: 'app' })
+    const { token: jwt } = await auth({ type: 'app' })
     // const app = new App({ id, privateKey })
     // const jwt = app.getSignedJsonWebToken()
+
+    core.info(`jwt: ${jwt}`)
 
     // 2. Get installationId of the app
     const octokit = github.getOctokit(jwt)
@@ -39,12 +42,12 @@ export namespace Util {
     core.info(`installationId: ${installationId}`)
 
     // 3. Retrieve installation access token
-    const authInstallation = await authApp({
+    const { token } = await auth({
       installationId,
       type: 'installation',
     })
 
-    return authInstallation.token
+    return token
   }
 
   export async function createSecret(octokit: Octokit, value: string) {
