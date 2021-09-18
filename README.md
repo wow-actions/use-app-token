@@ -6,25 +6,25 @@ This GitHub Action can be used to impersonate a GitHub App when `secrets.GITHUB_
 
 We can also use an app token to [custom an action's name and avatar](https://github.community/t/change-bots-name-avatar/18349).
 
-![screenshot](https://github.com/bubkoo/use-app-token/blob/master/screenshots/screenshot.jpg?raw=true)
+![screenshot](https://github.com/wow-actions/use-app-token/blob/master/screenshots/screenshot.jpg?raw=true)
 
 ## Usage
 
-Before staring, we should get our owned app's _"APP ID"_ and _"Private Key"_ in the app's setting page. For example, find the two values in my app's setting page [https://github.com/settings/apps/bubkoo-bot](https://github.com/settings/apps/bubkoo-bot).
+Before staring, we should get our owned app's _"APP ID"_ and _"Private Key"_ in the app's setting page. For example, find the two values in my app's setting page [https://github.com/settings/apps/wow-actions-bot](https://github.com/settings/apps/wow-actions-bot).
 
 Get your owned app's _"APP ID"_:
 
-![get-app-id](https://github.com/bubkoo/use-app-token/blob/master/screenshots/get-app-id.jpg?raw=true)
+![get-app-id](https://github.com/wow-actions/use-app-token/blob/master/screenshots/get-app-id.jpg?raw=true)
 
 Get or create a _"Private Key"_:
 
-![get-private-key](https://github.com/bubkoo/use-app-token/blob/master/screenshots/get-private-key.jpg?raw=true)
+![get-private-key](https://github.com/wow-actions/use-app-token/blob/master/screenshots/get-private-key.jpg?raw=true)
 
 **Do not have a Github App? Get a quick start with [probot](https://probot.github.io/).**
 
 Then add _"APP ID"_ and _"Private Key"_ to the target [repo's secrets](https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets). For example, we can add two secrets named `APP_ID` and `PRIVATE_KEY` with corresponding value.
 
-![secrets](https://github.com/bubkoo/use-app-token/blob/master/screenshots/secrets.jpg?raw=true)
+![secrets](https://github.com/wow-actions/use-app-token/blob/master/screenshots/secrets.jpg?raw=true)
 
 Now we can config the action by three ways:
 
@@ -35,7 +35,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/use-app-token@v1
+      - uses: wow-actions/use-app-token@v1
         id: generate_token
         with:
           app_id: ${{ secrets.APP_ID }}
@@ -55,7 +55,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/use-app-token@v1
+      - uses: wow-actions/use-app-token@v1
         id: generate_token
         with:
           app_id: ${{ secrets.APP_ID }}
@@ -82,7 +82,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: bubkoo/use-app-token@v1
+      - uses: wow-actions/use-app-token@v1
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}

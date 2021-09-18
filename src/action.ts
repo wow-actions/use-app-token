@@ -16,10 +16,10 @@ export namespace Action {
       core.setSecret(token)
       core.setOutput('token', token)
 
-      const variableName =
+      const envName =
         core.getInput('env_name') || core.getInput('variable_name')
-      if (variableName) {
-        core.exportVariable(variableName, token)
+      if (envName) {
+        core.exportVariable(envName, token)
       }
     } catch (e) {
       core.error(e)

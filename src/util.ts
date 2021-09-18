@@ -1,60 +1,60 @@
-import { context, getOctokit } from '@actions/github'
-import { getInput } from '@actions/core'
+import * as core from '@actions/core'
+import * as github from '@actions/github'
 import { Octokit } from '@octokit/core'
-import { App } from '@octokit/app'
+import { createAppAuth } from '@octokit/auth-app'
 import isBase64 from 'is-base64'
 import sodium from 'tweetsodium'
 
 export namespace Util {
   export async function getAppToken() {
-    const fallback = getInput('fallback')
+    const fallback = core.getInput('fallback')
     const required = fallback == null
-    const appId = Number(getInput('app_id', { required }))
-    const privateKeyInput = getInput('private_key', { required })
+    const appId = Number(core.getInput('app_id', { required }))
+    const privateKeyInput = core.getInput('private_key', { required })
     if (appId == null || privateKeyInput == null) {
       return Promise.resolve(fallback)
     }
 
-    const id = Number(appId)
+    // const id = Number(appId)
     const privateKey = isBase64(privateKeyInput)
       ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
       : privateKeyInput
-    const app = new App({ id, privateKey })
-    const jwt = app.getSignedJsonWebToken()
-    const octokit = getOctokit(jwt)
+
+    const authApp = createAppAuth({
+      appId,
+      privateKey,
+    })
+
+    // 1. Retrieve JSON Web Token (JWT) to authenticate as app
+    const { token: jwt } = await authApp({ type: 'app' })
+    // const app = new App({ id, privateKey })
+    // const jwt = app.getSignedJsonWebToken()
+
+    // 2. Get installationId of the app
+    const octokit = github.getOctokit(jwt)
     const {
       data: { id: installationId },
-    } = await octokit.apps.getRepoInstallation(context.repo)
+    } = await octokit.rest.apps.getRepoInstallation(github.context.repo)
 
-    return app.getInstallationAccessToken({
+    core.info(`installationId: ${installationId}`)
+
+    // 3. Retrieve installation access token
+    const authInstallation = await authApp({
       installationId,
+      type: 'installation',
     })
-  }
 
-  export async function saveAppTokenToSecret(
-    secretName: string,
-    token: string,
-  ) {
-    if (secretName) {
-      return createOrUpdateRepoSecret(token, secretName, token)
-    }
-  }
-
-  export async function removeAppTokenFromSecret(secretName: string) {
-    if (secretName) {
-      const token = await getAppToken()
-      return Util.deleteSecret(token, secretName)
-    }
+    return authInstallation.token
   }
 
   export async function createSecret(octokit: Octokit, value: string) {
-    const repo = context.repo
+    const { repo } = github.context
     const res = await octokit.request(
       'GET /repos/:owner/:repo/actions/secrets/public-key',
       repo,
     )
 
-    const key = res.data.key
+    const { key } = res.data
 
     // Convert the message and key to Uint8Array's
     const messageBytes = Buffer.from(value)
@@ -80,7 +80,7 @@ export namespace Util {
     await octokit.request(
       'PUT /repos/:owner/:repo/actions/secrets/:secret_name',
       {
-        ...context.repo,
+        ...github.context.repo,
         secret_name: name,
         data: secret,
       },
@@ -92,9 +92,27 @@ export namespace Util {
     await octokit.request(
       'DELETE /repos/:owner/:repo/actions/secrets/:secret_name',
       {
-        ...context.repo,
+        ...github.context.repo,
         secret_name: name,
       },
     )
+  }
+
+  export async function saveAppTokenToSecret(
+    secretName: string,
+    token: string,
+  ) {
+    if (secretName) {
+      return createOrUpdateRepoSecret(token, secretName, token)
+    }
+    return null
+  }
+
+  export async function removeAppTokenFromSecret(secretName: string) {
+    if (secretName) {
+      const token = await getAppToken()
+      return Util.deleteSecret(token, secretName)
+    }
+    return null
   }
 }
