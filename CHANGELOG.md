@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/wow-actions/use-app-token/compare/v1.1.5...v1.1.6) (2021-09-18)
+
+
+### Bug Fixes
+
+* 🐛 use `createAppAuth` to generate token ([27b49b2](https://github.com/wow-actions/use-app-token/commit/27b49b2a95fe3636df7089f1131eb71d3730aecd))
+
 ## [1.1.5](https://github.com/wow-actions/use-app-token/compare/v1.1.4...v1.1.5) (2021-09-18)
 
 
