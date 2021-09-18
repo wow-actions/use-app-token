@@ -11,6 +11,7 @@ export namespace Util {
     const required = fallback == null
     const appId = Number(core.getInput('app_id', { required }))
     const privateKeyInput = core.getInput('private_key', { required })
+
     if (appId == null || privateKeyInput == null) {
       return Promise.resolve(fallback)
     }
@@ -19,10 +20,6 @@ export namespace Util {
       ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
       : privateKeyInput
 
-    console.log(isBase64(privateKeyInput)) // eslint-disable-line
-    core.info(`appId: ${appId}`)
-    core.info(`privateKey: ${privateKey}`)
-
     const auth = createAppAuth({
       appId,
       privateKey,
@@ -30,32 +27,20 @@ export namespace Util {
 
     // 1. Retrieve JSON Web Token (JWT) to authenticate as app
     const { token: jwt } = await auth({ type: 'app' })
-    // const app = new App({ id, privateKey })
-    // const jwt = app.getSignedJsonWebToken()
-
-    core.info(`1. Retrieve JSON Web Token (JWT) to authenticate as app`)
 
     // 2. Get installationId of the app
     const octokit = github.getOctokit(jwt)
-
-    console.log(github.context.repo) // eslint-disable-line
-
-    const res = await octokit.rest.apps.getRepoInstallation({
-      ...github.context.repo,
-    })
-    console.log(res) // eslint-disable-line
     const {
       data: { id: installationId },
-    } = res
-    core.info(`2. Get installationId of the app`)
+    } = await octokit.rest.apps.getRepoInstallation({
+      ...github.context.repo,
+    })
 
     // 3. Retrieve installation access token
     const { token } = await auth({
       installationId,
       type: 'installation',
     })
-
-    core.info(`3. Retrieve installation access token`)
 
     return token
   }
