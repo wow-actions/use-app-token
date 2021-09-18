@@ -38,7 +38,9 @@ export namespace Util {
 
     console.log(github.context.repo) // eslint-disable-line
 
-    const res = await octokit.rest.apps.getRepoInstallation(github.context.repo)
+    const res = await octokit.rest.apps.getRepoInstallation({
+      ...github.context.repo,
+    })
     console.log(res) // eslint-disable-line
     const {
       data: { id: installationId },
