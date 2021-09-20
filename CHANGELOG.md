@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/wow-actions/use-app-token/compare/v1.1.7...v1.1.8) (2021-09-20)
+
+
+### Bug Fixes
+
+* typos ([f673ea8](https://github.com/wow-actions/use-app-token/commit/f673ea8c3109162314df12f97a5a9695f1d6de1a))
+
 ## [1.1.7](https://github.com/wow-actions/use-app-token/compare/v1.1.6...v1.1.7) (2021-09-19)
 
 ## [1.1.6](https://github.com/wow-actions/use-app-token/compare/v1.1.5...v1.1.6) (2021-09-18)
