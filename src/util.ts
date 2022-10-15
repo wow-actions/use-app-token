@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 import { Octokit } from '@octokit/core'
 import { createAppAuth } from '@octokit/auth-app'
 import isBase64 from 'is-base64'
-import sodium from 'tweetsodium'
+import sodium from 'libsodium-wrappers'
 
 export namespace Util {
   export async function getAppToken() {
@@ -54,17 +54,22 @@ export namespace Util {
 
     const { key } = res.data
 
-    // Convert the message and key to Uint8Array's
-    const messageBytes = Buffer.from(value)
-    const keyBytes = Buffer.from(key, 'base64')
+    await sodium.ready
 
-    // Encrypt using LibSodium.
-    const encryptedBytes = sodium.seal(messageBytes, keyBytes)
+    // Convert Secret & Base64 key to Uint8Array.
+    const binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
+    const binsec = sodium.from_string(value)
+
+    // Encrypt the secret using LibSodium
+    const encryptedBytes = sodium.crypto_box_seal(binsec, binkey)
 
     return {
       key_id: res.data.key_id,
       // Base64 the encrypted secret
-      encrypted_value: Buffer.from(encryptedBytes).toString('base64'),
+      encrypted_value: sodium.to_base64(
+        encryptedBytes,
+        sodium.base64_variants.ORIGINAL,
+      ),
     }
   }
 
