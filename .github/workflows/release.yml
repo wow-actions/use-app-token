@@ -29,3 +29,5 @@ jobs:
           GITHUB_TOKEN: ${{ env.bot_token }}
           GIT_COMMITTER_NAME: wow-actions-bot
           GIT_COMMITTER_EMAIL: wow-actions-bot@users.noreply.github.com
+      - name: 📦　Build
+        run: yarn build
