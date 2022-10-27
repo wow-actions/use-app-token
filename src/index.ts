@@ -1,9 +1,9 @@
-import { getInput } from '@actions/core'
-import { State } from './state'
-import { Action } from './action'
+import { getBooleanInput } from '@actions/core'
+import { isPost } from './state'
+import { run, cleanup } from './action'
 
-if (!State.isPost) {
-  Action.run()
-} else if (getInput('clean_secret') === 'true') {
-  Action.cleanup()
+if (!isPost) {
+  run()
+} else if (getBooleanInput('clean_secret')) {
+  cleanup()
 }
