@@ -25,8 +25,8 @@ jobs:
       - name: 📦　Release
         uses: wow-actions/release-github-action@v1
         with:
-          GITHUB_TOKEN: ${{ env.bot_token }}
-          GIT_COMMITTER_NAME: ${{ env.bot_name }}
-          GIT_COMMITTER_EMAIL: ${{ env.bot_name }}@users.noreply.github.com
+          GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
+          GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}@users.noreply.github.com
       - name: 📦　Build
         run: yarn build
