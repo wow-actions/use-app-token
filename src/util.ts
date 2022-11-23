@@ -5,6 +5,14 @@ import sodium from 'libsodium-wrappers'
 import { Octokit } from '@octokit/core'
 import { createAppAuth } from '@octokit/auth-app'
 
+export function getAppLoginName() {
+  return core.getInput('app_login_name') || 'BOT_NAME'
+}
+
+export function getAppTokenName() {
+  return core.getInput('app_token_name') || 'BOT_TOKEN'
+}
+
 export async function getAppToken() {
   const fallback = core.getInput('fallback')
   const required = fallback == null
@@ -29,22 +37,23 @@ export async function getAppToken() {
 
   // 2. Get installationId of the app
   const octokit = github.getOctokit(jwt)
-  const {
-    data: { id: installationId },
-  } = await octokit.rest.apps.getRepoInstallation({
+  const install = await octokit.rest.apps.getRepoInstallation({
     ...github.context.repo,
   })
 
   // 3. Retrieve installation access token
   const { token } = await auth({
-    installationId,
     type: 'installation',
+    installationId: install.data.id,
   })
+
+  // eslint-disable-next-line no-console
+  console.log(install.data)
 
   return token
 }
 
-async function createSecret(octokit: Octokit, value: string) {
+async function makeSecret(octokit: Octokit, value: string) {
   const { repo } = github.context
   const res = await octokit.request(
     'GET /repos/:owner/:repo/actions/secrets/public-key',
@@ -72,45 +81,30 @@ async function createSecret(octokit: Octokit, value: string) {
   }
 }
 
-async function createOrUpdateRepoSecret(
+export async function createSecret(
   token: string,
-  name: string,
-  value: string,
+  secretName: string,
+  secretValue: string,
 ) {
   const octokit = new Octokit({ auth: token })
-  const secret = await createSecret(octokit, value)
+  const secret = await makeSecret(octokit, secretValue)
   await octokit.request(
     'PUT /repos/:owner/:repo/actions/secrets/:secret_name',
     {
       ...github.context.repo,
-      secret_name: name,
+      secret_name: secretName,
       data: secret,
     },
   )
 }
 
-async function deleteSecret(token: string, name: string) {
+export async function deleteSecret(token: string, secretName: string) {
   const octokit = new Octokit({ auth: token })
   await octokit.request(
     'DELETE /repos/:owner/:repo/actions/secrets/:secret_name',
     {
       ...github.context.repo,
-      secret_name: name,
+      secret_name: secretName,
     },
   )
-}
-
-export async function saveTokenToSecret(secretName: string, token: string) {
-  if (secretName) {
-    return createOrUpdateRepoSecret(token, secretName, token)
-  }
-  return null
-}
-
-export async function removeTokenFromSecret(secretName: string) {
-  if (secretName) {
-    const token = await getAppToken()
-    return deleteSecret(token, secretName)
-  }
-  return null
 }

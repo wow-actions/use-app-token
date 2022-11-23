@@ -4,21 +4,23 @@ import * as util from './util'
 export async function run() {
   try {
     const token = await util.getAppToken()
-    core.info('Token generated!')
+    const loginName = util.getAppLoginName()
+    const tokenName = util.getAppTokenName()
 
-    const secretName = core.getInput('secret_name')
-    if (secretName) {
-      await util.saveTokenToSecret(secretName, token)
-      core.info(`Save token in secret "${secretName}"`)
+    const saveToSecret = core.getBooleanInput('secret')
+    if (saveToSecret) {
+      await util.createSecret(token, loginName, token)
+      await util.createSecret(token, tokenName, token)
+      core.info(`Secrets "${loginName}" and "${tokenName}" was created`)
     }
 
     core.setSecret(token)
-    core.setOutput('token', token)
 
-    const envName = core.getInput('env_name') || core.getInput('variable_name')
-    if (envName) {
-      core.exportVariable(envName, token)
-    }
+    core.setOutput('bot_name', token)
+    core.setOutput('bot_token', token)
+
+    core.exportVariable(loginName, token)
+    core.exportVariable(tokenName, token)
   } catch (e) {
     core.error(e)
     core.setFailed(e.message)
@@ -27,10 +29,15 @@ export async function run() {
 
 export async function cleanup() {
   try {
-    const secretName = core.getInput('secret_name')
-    if (secretName) {
-      await util.removeTokenFromSecret(secretName)
-      core.info(`Token in secret "${secretName}" was cleaned`)
+    const clean = core.getBooleanInput('clean')
+    const saveToSecret = core.getBooleanInput('secret')
+    if (saveToSecret && clean) {
+      const token = await util.getAppToken()
+      const loginName = util.getAppLoginName()
+      const tokenName = util.getAppTokenName()
+      await util.deleteSecret(token, loginName)
+      await util.deleteSecret(token, tokenName)
+      core.info(`Secrets "${loginName}" and "${tokenName}" was removed`)
     }
   } catch (e) {
     core.error(e)

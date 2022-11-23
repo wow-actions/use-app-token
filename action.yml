@@ -11,23 +11,28 @@ inputs:
   fallback:
     description: The fallback token when bot token generate failed.
     required: false
-  variable_name:
-    description: The name of generated token in exported environment variable.
+  app_login_name:
+    description: The app login name exported to `env` or saved to `secrets`.
     required: false
-  env_name:
-    description: The name of generated token in exported environment variable.
+    default: BOT_NAME
+  app_token_name:
+    description: The app token name exported to `env` or saved to `secrets`.
     required: false
-  secret_name:
-    description: The secret name created on current repository.
-    required: false
-  clean_secret:
-    description: Should clean the secret or not when this action run completed.
+    default: BOT_TOKEN
+  secret:
+    description: Specify true to save app token and app login name into the secrets of current repository.
     required: false
     default: false
+  clean:
+    description: Specify true to clean saved secrets when workflow run completed.
+    required: false
+    default: true
 
 outputs:
-  token:
-    description: The token for the GitHub App on the current repository.
+  bot_name:
+    description: The name of the GitHub App on the current repository.
+  bot_token:
+    description: The token of the GitHub App on the current repository.
 
 runs:
   using: node16
