@@ -4,6 +4,6 @@ import { run, cleanup } from './action'
 
 if (!isPost) {
   run()
-} else if (getBooleanInput('clean_secret')) {
+} else if (getBooleanInput('clean')) {
   cleanup()
 }
