@@ -3,24 +3,24 @@ import * as util from './util'
 
 export async function run() {
   try {
-    const token = await util.getAppToken()
-    const loginName = util.getAppLoginName()
-    const tokenName = util.getAppTokenName()
+    const { token, slug } = await util.getAppInfo()
+    const appSlugName = util.getAppSlugName()
+    const appTokenName = util.getAppTokenName()
 
     const saveToSecret = core.getBooleanInput('secret')
     if (saveToSecret) {
-      await util.createSecret(token, loginName, token)
-      await util.createSecret(token, tokenName, token)
-      core.info(`Secrets "${loginName}" and "${tokenName}" was created`)
+      await util.createSecret(token, appSlugName, slug)
+      await util.createSecret(token, appTokenName, token)
+      core.info(`Secrets "${appSlugName}" and "${appTokenName}" was created`)
     }
 
     core.setSecret(token)
 
-    core.setOutput('bot_name', token)
-    core.setOutput('bot_token', token)
+    core.setOutput('BOT_NAME', slug)
+    core.setOutput('BOT_TOKEN', token)
 
-    core.exportVariable(loginName, token)
-    core.exportVariable(tokenName, token)
+    core.exportVariable(appSlugName, slug)
+    core.exportVariable(appTokenName, token)
   } catch (e) {
     core.error(e)
     core.setFailed(e.message)
@@ -32,12 +32,12 @@ export async function cleanup() {
     const clean = core.getBooleanInput('clean')
     const saveToSecret = core.getBooleanInput('secret')
     if (saveToSecret && clean) {
-      const token = await util.getAppToken()
-      const loginName = util.getAppLoginName()
-      const tokenName = util.getAppTokenName()
-      await util.deleteSecret(token, loginName)
-      await util.deleteSecret(token, tokenName)
-      core.info(`Secrets "${loginName}" and "${tokenName}" was removed`)
+      const { token } = await util.getAppInfo()
+      const appSlugName = util.getAppSlugName()
+      const appTokenName = util.getAppTokenName()
+      await util.deleteSecret(token, appSlugName)
+      await util.deleteSecret(token, appTokenName)
+      core.info(`Secrets "${appSlugName}" and "${appTokenName}" was removed`)
     }
   } catch (e) {
     core.error(e)

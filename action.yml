@@ -11,7 +11,7 @@ inputs:
   fallback:
     description: The fallback token when bot token generate failed.
     required: false
-  app_login_name:
+  app_slug_name:
     description: The app login name exported to `env` or saved to `secrets`.
     required: false
     default: BOT_NAME

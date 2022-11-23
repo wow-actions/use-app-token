@@ -5,22 +5,22 @@ import sodium from 'libsodium-wrappers'
 import { Octokit } from '@octokit/core'
 import { createAppAuth } from '@octokit/auth-app'
 
-export function getAppLoginName() {
-  return core.getInput('app_login_name') || 'BOT_NAME'
+export function getAppSlugName() {
+  return core.getInput('app_slug_name') || 'BOT_NAME'
 }
 
 export function getAppTokenName() {
   return core.getInput('app_token_name') || 'BOT_TOKEN'
 }
 
-export async function getAppToken() {
+export async function getAppInfo() {
   const fallback = core.getInput('fallback')
   const required = fallback == null
   const appId = Number(core.getInput('app_id', { required }))
   const privateKeyInput = core.getInput('private_key', { required })
 
   if (appId == null || privateKeyInput == null) {
-    return Promise.resolve(fallback)
+    return Promise.resolve({ token: fallback, slug: '' })
   }
 
   const privateKey = isBase64(privateKeyInput)
@@ -47,10 +47,7 @@ export async function getAppToken() {
     installationId: install.data.id,
   })
 
-  // eslint-disable-next-line no-console
-  console.log(install.data)
-
-  return token
+  return { token, slug: install.data.app_slug }
 }
 
 async function makeSecret(octokit: Octokit, value: string) {

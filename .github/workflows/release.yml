@@ -22,12 +22,11 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-          env_name: bot_token
       - name: 📦　Release
         uses: wow-actions/release-github-action@v1
         with:
           GITHUB_TOKEN: ${{ env.bot_token }}
-          GIT_COMMITTER_NAME: wow-actions-bot
-          GIT_COMMITTER_EMAIL: wow-actions-bot@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ env.bot_name }}
+          GIT_COMMITTER_EMAIL: ${{ env.bot_name }}@users.noreply.github.com
       - name: 📦　Build
         run: yarn build
