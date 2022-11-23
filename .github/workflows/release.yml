@@ -28,7 +28,3 @@ jobs:
           GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
           GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}@users.noreply.github.com
-      - name: 🚧　Install
-        run: yarn
-      - name: 📦　Build
-        run: yarn build
