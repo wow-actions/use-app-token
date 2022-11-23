@@ -12,7 +12,7 @@ inputs:
     description: The fallback token when bot token generate failed.
     required: false
   app_slug_name:
-    description: The app login name exported to `env` or saved to `secrets`.
+    description: The app slug name exported to `env` or saved to `secrets`.
     required: false
     default: BOT_NAME
   app_token_name:
@@ -20,7 +20,7 @@ inputs:
     required: false
     default: BOT_TOKEN
   secret:
-    description: Specify true to save app token and app login name into the secrets of current repository.
+    description: Specify true to save app token and app slug into the secrets of current repository.
     required: false
     default: false
   clean:
