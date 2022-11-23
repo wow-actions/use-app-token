@@ -55,6 +55,7 @@ jobs:
         with:
           # Use app token in outpus of the 'generate_token' step
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.BOT_TOKEN }}
+        env:
           # Use app name in outpus of the 'generate_token' step
           GIT_COMMITTER_NAME: ${{ steps.generate_token.outputs.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ steps.generate_token.outputs.BOT_NAME }}@users.noreply.github.com
@@ -77,6 +78,7 @@ jobs:
         with:
           # Use app token in the environment variable named "BOT_TOKEN"
           GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
+        env:
           # Use app name in the environment variable named "BOT_NAME"
           GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}@users.noreply.github.com
@@ -102,6 +104,7 @@ jobs:
       - uses: 'any other action'
         with:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        env:
           GIT_COMMITTER_NAME: ${{ secrets.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.BOT_NAME }}@users.noreply.github.com
 ```
