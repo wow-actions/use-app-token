@@ -84,8 +84,8 @@ jobs:
           # Use app name in the environment variable named "BOT_NAME"
           GIT_AUTHOR_NAME: ${{ env.BOT_NAME }}[bot]
           GIT_AUTHOR_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
-          GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}[bot]
+          GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
 
 
 ```
@@ -111,8 +111,8 @@ jobs:
         env:
           GIT_AUTHOR_NAME: ${{ secrets.BOT_NAME }}[bot]
           GIT_AUTHOR_EMAIL: ${{ secrets.BOT_NAME }}[bot]@users.noreply.github.com
-          GIT_COMMITTER_NAME: ${{ secrets.BOT_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.BOT_NAME }}@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ secrets.BOT_NAME }}[bot]
+          GIT_COMMITTER_EMAIL: ${{ secrets.BOT_NAME }}[bot]@users.noreply.github.com
 ```
 
 ### Inputs
