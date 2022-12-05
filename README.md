@@ -57,8 +57,10 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.BOT_TOKEN }}
         env:
           # Use app name in outpus of the 'generate_token' step
-          GIT_COMMITTER_NAME: ${{ steps.generate_token.outputs.BOT_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ steps.generate_token.outputs.BOT_NAME }}@users.noreply.github.com
+          GIT_AUTHOR_NAME: ${{ steps.generate_token.outputs.BOT_NAME }}[bot]
+          GIT_AUTHOR_EMAIL: ${{ steps.generate_token.outputs.BOT_NAME }}[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ steps.generate_token.outputs.BOT_NAME }}[bot]
+          GIT_COMMITTER_EMAIL: ${{ steps.generate_token.outputs.BOT_NAME }}[bot]@users.noreply.github.com
 ```
 
 ### Method 2: Use environment variables in the next steps
@@ -80,6 +82,8 @@ jobs:
           GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
         env:
           # Use app name in the environment variable named "BOT_NAME"
+          GIT_AUTHOR_NAME: ${{ env.BOT_NAME }}[bot]
+          GIT_AUTHOR_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}@users.noreply.github.com
 
@@ -105,6 +109,8 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         env:
+          GIT_AUTHOR_NAME: ${{ secrets.BOT_NAME }}[bot]
+          GIT_AUTHOR_EMAIL: ${{ secrets.BOT_NAME }}[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: ${{ secrets.BOT_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.BOT_NAME }}@users.noreply.github.com
 ```
