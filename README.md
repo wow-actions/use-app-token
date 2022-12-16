@@ -3,11 +3,11 @@
 <p align="center"><strong>Run GitHub Actions as a GitHub App by using the app's authentication token</strong></p>
 
 <p align="center">
+  <a href="https://github.com/wow-actions/use-app-token/actions/workflows/release.yml"><img alt="build" src="https://img.shields.io/github/actions/workflow/status/wow-actions/use-app-token/release.yml?branch=master&logo=github&style=flat-square" ></a>
   <a href="/wow-actions/use-app-token/blob/master/LICENSE"><img alt="MIT License" src="https://img.shields.io/github/license/wow-actions/use-app-token?style=flat-square"></a>
   <a href="https://www.typescriptlang.org" rel="nofollow"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=flat-square"></a>
   <a href="https://github.com/wow-actions/use-app-token/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square" ></a>
   <a href="https://github.com/marketplace/actions/use-app-token" rel="nofollow"><img alt="website" src="https://img.shields.io/static/v1?label=&labelColor=505050&message=Marketplace&color=0076D6&style=flat-square&logo=google-chrome&logoColor=0076D6" ></a>
-  <a href="https://github.com/wow-actions/use-app-token/actions/workflows/release.yml"><img alt="build" src="https://img.shields.io/github/workflow/status/wow-actions/use-app-token/Release/master?logo=github&style=flat-square" ></a>
   <a href="https://lgtm.com/projects/g/wow-actions/use-app-token/context:javascript" rel="nofollow"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/wow-actions/use-app-token.svg?logo=lgtm&style=flat-square" ></a>
 </p>
 
