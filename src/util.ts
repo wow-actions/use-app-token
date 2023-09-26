@@ -105,3 +105,10 @@ export async function deleteSecret(token: string, secretName: string) {
     },
   )
 }
+
+export async function deleteToken(token: string) {
+  const octokit = new Octokit({ auth: token })
+  await octokit.request(
+    'DELETE /installation/token',
+  )
+}
