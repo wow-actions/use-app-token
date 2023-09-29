@@ -18,6 +18,8 @@ export async function run() {
 
     core.setOutput('BOT_NAME', slug)
     core.setOutput('BOT_TOKEN', token)
+    // save token in state to be used in cleanup
+    core.saveState('token', token)
 
     core.exportVariable(appSlugName, slug)
     core.exportVariable(appTokenName, token)
@@ -31,13 +33,18 @@ export async function cleanup() {
   try {
     const clean = core.getBooleanInput('clean')
     const saveToSecret = core.getBooleanInput('secret')
-    if (saveToSecret && clean) {
-      const { token } = await util.getAppInfo()
-      const appSlugName = util.getAppSlugName()
-      const appTokenName = util.getAppTokenName()
-      await util.deleteSecret(token, appSlugName)
-      await util.deleteSecret(token, appTokenName)
-      core.info(`Secrets "${appSlugName}" and "${appTokenName}" was removed`)
+    const token = core.getState('token');
+    if (clean) {
+      if (saveToSecret) {
+        const { token } = await util.getAppInfo()
+        const appSlugName = util.getAppSlugName()
+        const appTokenName = util.getAppTokenName()
+        await util.deleteSecret(token, appSlugName)
+        await util.deleteSecret(token, appTokenName)
+        core.info(`Secrets "${appSlugName}" and "${appTokenName}" were removed`)
+      }
+      await util.deleteToken(token);
+      core.info("Token revoked");
     }
   } catch (e) {
     core.error(e)
