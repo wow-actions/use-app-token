@@ -35,7 +35,7 @@ outputs:
     description: The token of the GitHub App on the current repository.
 
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
   post: dist/index.js
 
