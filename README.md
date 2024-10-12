@@ -85,8 +85,6 @@ jobs:
           GIT_AUTHOR_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}[bot]
           GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
-
-
 ```
 
 ### Method 3: Use secrets in the next steps
