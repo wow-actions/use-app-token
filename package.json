@@ -1,6 +1,6 @@
 {
   "name": "use-app-token",
-  "version": "2.0.2",
+  "version": "1.0.0",
   "description": "Run GitHub Actions as a GitHub App by using the app's authentication token",
   "main": "dist/index.js",
   "files": [
