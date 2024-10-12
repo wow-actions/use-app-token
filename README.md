@@ -18,9 +18,9 @@ We can also use an app token to [custom an action's name and avatar](https://git
 
 ## Usage
 
-Before staring, we should get our owned app's _"APP ID"_ and _"Private Key"_ in the app's setting page. For example, find the two values in my app's setting page [https://github.com/settings/apps/wow-actions-bot](https://github.com/settings/apps/wow-actions-bot).
+Before staring, we should get the _"APP ID"_ and _"Private Key"_ in the app's setting page. For example, find the two values in my app's setting page [https://github.com/settings/apps/wow-actions-bot](https://github.com/settings/apps/wow-actions-bot).
 
-Get your owned app's _"APP ID"_
+Get the app's _"APP ID"_
 
 ![get-app-id](https://github.com/wow-actions/use-app-token/blob/master/screenshots/get-app-id.jpg?raw=true)
 
