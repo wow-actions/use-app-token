@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import * as sodium from 'libsodium-wrappers'
 import isBase64 from 'is-base64'
-import sodium from 'libsodium-wrappers'
 import { Octokit } from '@octokit/core'
 import { createAppAuth } from '@octokit/auth-app'
 
@@ -15,12 +15,20 @@ export function getAppTokenName() {
 
 export async function getAppInfo() {
   const fallback = core.getInput('fallback')
-  const required = fallback == null
-  const appId = Number(core.getInput('app_id', { required }))
-  const privateKeyInput = core.getInput('private_key', { required })
+  const hasFallback = Boolean(fallback)
+  const appIdInput = core.getInput('app_id', { required: !hasFallback })
+  const privateKeyInput = core.getInput('private_key', {
+    required: !hasFallback,
+  })
 
-  if (appId == null || privateKeyInput == null) {
+  if (!appIdInput || !privateKeyInput) {
     return Promise.resolve({ token: fallback, slug: '' })
+  }
+
+  const appId = Number(appIdInput)
+
+  if (!Number.isFinite(appId) || appId <= 0) {
+    throw new Error('Invalid input: app_id must be a positive number')
   }
 
   const privateKey = isBase64(privateKeyInput)
@@ -108,7 +116,5 @@ export async function deleteSecret(token: string, secretName: string) {
 
 export async function deleteToken(token: string) {
   const octokit = new Octokit({ auth: token })
-  await octokit.request(
-    'DELETE /installation/token',
-  )
+  await octokit.request('DELETE /installation/token')
 }

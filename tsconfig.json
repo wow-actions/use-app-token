@@ -1,4 +1,7 @@
 {
   "extends": "@bubkoo/tsconfig",
-  "include": ["src/**/*.ts"]
+  "compilerOptions": {
+    "declaration": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }
