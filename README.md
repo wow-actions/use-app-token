@@ -118,15 +118,15 @@ Various inputs are defined to let you configure the action:
 
 > Note: [Workflow command and parameter names are not case-sensitive](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#about-workflow-commands).
 
-| Name             | Description                                                                                                                                                                                                                                                                                                                       |    Default    |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------:|
-| `app_id`         | The ID of the GitHub App. [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'APP_ID'` to store your app ID, then used by `${{ secrets.APP_ID }}`                                                |      N/A      |
-| `private_key`    | The private key of the GitHub App (can be Base64 encoded). [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'PRIVATE_KEY'` to store your app private key, then used by `${{ secrets.APP_ID }}` |      N/A      |
-| `fallback`       | The fallback token when app token generate failed                                                                                                                                                                                                                                                                                 |      N/A      |
-| `app_slug_name`  | The app slug name exported to `env` or saved to `secrets`                                                                                                                                                                                                                                                                         | `"BOT_NAME"`  |
-| `app_token_name` | The app token name exported to `env` or saved to `secrets`                                                                                                                                                                                                                                                                        | `"BOT_TOKEN"` |
-| `secret`         | Specify `true` to save app token and app slug into the secrets of current repository                                                                                                                                                                                                                                              |    `false`    |
-| `clean`          | Specify `true` to clean saved secrets when workflow run completed. Only used when `secret` specfiied to `true`                                                                                                                                                                                                                    |    `true`     |
+| Name | Description | Default |
+| --- | --- | :-: |
+| `app_id` | The ID of the GitHub App. [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'APP_ID'` to store your app ID, then used by `${{ secrets.APP_ID }}` | N/A |
+| `private_key` | The private key of the GitHub App (can be Base64 encoded; escaped newlines like `\n` are also supported). [Create an secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#creating-encrypted-secrets-for-a-repository) named `'PRIVATE_KEY'` to store your app private key, then used by `${{ secrets.APP_ID }}` | N/A |
+| `fallback` | The fallback token when app token generate failed | N/A |
+| `app_slug_name` | The app slug name exported to `env` or saved to `secrets` | `"BOT_NAME"` |
+| `app_token_name` | The app token name exported to `env` or saved to `secrets` | `"BOT_TOKEN"` |
+| `secret` | Specify `true` to save app token and app slug into the secrets of current repository | `false` |
+| `clean` | Specify `true` to clean saved secrets when workflow run completed. Only used when `secret` specfiied to `true` | `true` |
 
 ## License
 

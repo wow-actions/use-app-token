@@ -14,9 +14,9 @@ jobs:
       - name: ⤵️　Checkout
         uses: actions/checkout@v3
       - name: 🚧　Install
-        run: yarn
+        run: npm ci
       - name: 📦　Build
-        run: yarn build
+        run: npm run build
       - name: 🔑　Generate Token
         uses: ./
         with:

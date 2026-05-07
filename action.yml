@@ -1,4 +1,4 @@
-name: Use App token
+name: Use Your App token in GitHub Actions
 description: Run GitHub Actions as a GitHub App by using the app's authentication token.
 author: bubkoo <bubkoo.wy@gmail.com>
 inputs:

@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import { createPrivateKey } from 'node:crypto'
 import * as sodium from 'libsodium-wrappers'
 import isBase64 from 'is-base64'
 import { Octokit } from '@octokit/core'
@@ -11,6 +12,23 @@ export function getAppSlugName() {
 
 export function getAppTokenName() {
   return core.getInput('app_token_name') || 'BOT_TOKEN'
+}
+
+function normalizePrivateKey(privateKeyInput: string) {
+  let privateKey = privateKeyInput.trim()
+
+  if (
+    (privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+    (privateKey.startsWith("'") && privateKey.endsWith("'"))
+  ) {
+    privateKey = privateKey.slice(1, -1)
+  }
+
+  if (isBase64(privateKey)) {
+    privateKey = Buffer.from(privateKey, 'base64').toString('utf8')
+  }
+
+  return privateKey.replace(/\r\n/g, '\n').replace(/\\n/g, '\n')
 }
 
 export async function getAppInfo() {
@@ -31,9 +49,15 @@ export async function getAppInfo() {
     throw new Error('Invalid input: app_id must be a positive number')
   }
 
-  const privateKey = isBase64(privateKeyInput)
-    ? Buffer.from(privateKeyInput, 'base64').toString('utf8')
-    : privateKeyInput
+  const privateKey = normalizePrivateKey(privateKeyInput)
+
+  try {
+    createPrivateKey(privateKey)
+  } catch {
+    throw new Error(
+      'Invalid input: private_key must be a GitHub App PEM private key. Base64-encoded PEM is supported, and escaped newlines (\\n) will be normalized automatically.',
+    )
+  }
 
   const auth = createAppAuth({
     appId,
