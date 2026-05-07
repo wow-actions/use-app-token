@@ -14,7 +14,7 @@ jobs:
       - name: ⤵️　Checkout
         uses: actions/checkout@v3
       - name: 🚧　Install
-        run: npm ci --include=dev
+        run: npm ci
       - name: 📦　Build
         run: npm run build
       - name: 🔑　Generate Token

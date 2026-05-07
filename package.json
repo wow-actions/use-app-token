@@ -11,7 +11,7 @@
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.{js,ts}?(x)' --fix",
     "build": "ncc build src/index.ts --minify --v8-cache",
-    "prebuild": "npm run lint && npm run clean",
+    "prebuild": "run-s lint clean",
     "prepare": "is-ci || husky install .husky"
   },
   "lint-staged": {
@@ -48,6 +48,7 @@
     "eslint": "^8.28.0",
     "husky": "^8.0.2",
     "is-ci": "^3.0.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
     "pretty-quick": "^3.1.3",
     "rimraf": "^3.0.2",
