@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/wow-actions/use-app-token/compare/v2.1.1...v2.1.2) (2026-05-07)
+
+
+### Bug Fixes
+
+* migrate secret encryption to libsodium ([28d73b0](https://github.com/wow-actions/use-app-token/commit/28d73b0))
+
 ## [2.1.1](https://github.com/wow-actions/use-app-token/compare/v2.1.0...v2.1.1) (2024-10-12)
 
 # 1.0.0 (2024-10-12)
