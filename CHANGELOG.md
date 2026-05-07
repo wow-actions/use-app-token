@@ -3,6 +3,15 @@
 
 ### Bug Fixes
 
+* normalize app auth runtime handling ([ebe1324](https://github.com/wow-actions/use-app-token/commit/ebe1324bea335d16bd5bc4204ac0ad30044cdd29))
+* remove run-s from build pipeline ([6173a7f](https://github.com/wow-actions/use-app-token/commit/6173a7fe75fd46e548fd6421ae26471a3ea540dd))
+* specify npm registry ([0b3d11e](https://github.com/wow-actions/use-app-token/commit/0b3d11e1b1661fd33bb1566fac2a3eaa032ae5d8))
+
+## [2.1.2](https://github.com/wow-actions/use-app-token/compare/v2.1.1...v2.1.2) (2026-05-07)
+
+
+### Bug Fixes
+
 * migrate secret encryption to libsodium ([28d73b0](https://github.com/wow-actions/use-app-token/commit/28d73b0))
 
 ## [2.1.1](https://github.com/wow-actions/use-app-token/compare/v2.1.0...v2.1.1) (2024-10-12)
